@@ -30,3 +30,31 @@ $('#addNewColor').click(function(){
   $('.controls ul').append($newColorPicked);
   $newColorPicked.click(); //triggers the click function so it becomes the selected color.
 });
+
+
+//Drawing functionality
+$canvas = $('#canvas');
+var context = $canvas[0].getContext('2d');
+var lastevent;
+var mouseDown = false;
+$canvas.mousedown(function(e){
+  lastevent = e;
+  mouseDown = true;
+}).mousemove(function(e){
+  if(mouseDown){
+    context.beginPath();
+    context.moveTo(lastevent.offsetX, lastevent.offsetY);
+    context.lineTo(e.offsetX,e.offsetY);
+    context.strokeStyle = color;
+    context.stroke();
+    lastevent = e;
+  }
+}).mouseenter(function(){
+  if(mouseDown){
+    $canvas.mousedown();
+  }
+}).mouseup(function(){
+    mouseDown = false;
+}).mouseleave(function(){
+  $canvas.mouseup();
+});
